@@ -1,0 +1,53 @@
+#include <iostream>
+#include <algorithm>
+using namespace std;
+
+struct person
+{
+    int id, penalty_time, problems;
+};
+
+//Функция cmp – компаратор для сортировки участников соревнования.
+int cmp(person a, person b)
+{
+    //Сортируем по количеству решённых задач в порядке убывания.
+        if (a.problems != b.problems) return a.problems > b.problems;
+        
+   // При равенстве количества решённых задач – сортируем по штрафному времени в порядке возрастания.
+        if (a.penalty_time != b.penalty_time)
+        {
+            return a.penalty_time < b.penalty_time;
+        }
+        
+    //При прочих равных – сортируем по номеру команды в порядке возрастания.
+        return a.id < b.id;
+}
+
+//Основная часть программы.Выделяем память под массив команд.
+int main()
+{
+    person* acm;
+    int n;
+    cin >> n;
+    acm = new person[n];
+	
+    //Считываем данные о командах.
+    for (int i = 0; i < n; i++)
+    {
+        cin >> acm[i].problems >> acm[i].penalty_time;
+
+        acm[i].id = i + 1;
+
+    }
+	
+    //Сортируем команды согласно заданного условия.
+    sort(acm, acm + n, cmp);
+    
+    //Выводим номера команд в порядке их расположения в таблице результатов.
+    for (int i = 0; i < n; i++)
+    {
+        cout << acm[i].id << " ";
+    }
+    
+    delete[] acm;
+}
